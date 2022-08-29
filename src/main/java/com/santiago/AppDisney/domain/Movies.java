@@ -12,11 +12,11 @@ import java.util.Set;
 public class Movies {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id_movies;
+    private Long Id;
     private String title;
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "movies_character",joinColumns = @JoinColumn(name="id_movies"),inverseJoinColumns = @JoinColumn(name="id_character"))
-    private Set<Characters> characters = new HashSet<>();
+    private Set<Personage> characters = new HashSet<>();
 
     public Movies() {
     }

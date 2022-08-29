@@ -1,6 +1,6 @@
 package com.santiago.AppDisney.repository;
 
-import com.santiago.AppDisney.domain.Characters;
+import com.santiago.AppDisney.domain.Personage;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,14 +10,14 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface CharacterRepository extends JpaRepository<Characters,Long> {
+public interface PersonageRepository extends JpaRepository<Personage,Long> {
 
-    @Query("SELECT n FROM Characters n WHERE " +
+    @Query("SELECT n FROM Personage n WHERE " +
             "n.name LIKE CONCAT('%',:name, '%')")
-    Page<Characters> findByName(String name, Pageable pageable);
+    Page<Personage> findByName(String name, Pageable pageable);
 
 
 
-    @Query("SELECT * FROM Characters WHERE Characters.name=:name")
-    List<Characters>  findByName(String name);
+
+  /*  List<Personage>  findByName(String name);*/
 }

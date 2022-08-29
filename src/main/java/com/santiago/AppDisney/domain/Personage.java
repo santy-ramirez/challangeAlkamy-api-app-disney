@@ -9,28 +9,28 @@ import java.util.Set;
 
 @Data
 @Entity
-public class Characters {
+public class Personage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long Id_character;
+    private Long Id;
     private String name;
 
     @ManyToMany(mappedBy = "characters", fetch = FetchType.EAGER)
     private Set<Movies> movies = new HashSet<>();
 
-    public Characters() {
+    public Personage() {
     }
 
-    public Characters(Long id_character, String name,  Set<Movies> movies) {
-        Id_character = id_character;
+    public Personage(Long id, String name, Set<Movies> movies) {
+        this.Id = id;
         this.name = name;
 
         this.movies = movies;
     }
 
-    public Characters(Long id_character, String name) {
-        Id_character = id_character;
-        this.name = name;
+    public Personage(Long id) {
+        this.Id = id;
+
 
     }
 }

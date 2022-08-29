@@ -4,12 +4,10 @@ import lombok.Data;
 import org.springframework.http.HttpStatus;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
-public class CharacteresPage {
+public class PersonagePage {
     private HttpStatus status;
     private int page;
     private int size;

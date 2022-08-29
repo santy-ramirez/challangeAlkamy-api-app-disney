@@ -1,7 +1,6 @@
 package com.santiago.AppDisney.dto.characters;
 
 import com.santiago.AppDisney.domain.Movies;
-import com.santiago.AppDisney.dto.MoviesDto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,9 +10,16 @@ import java.util.Set;
 
 @Data
 @NoArgsConstructor
-public class CharacterDto  {
+public class PersonageDto extends PersonageBaseDto {
+   private String name;
 
-   private Set<Movies> movies = new HashSet<>();
+
+
+   public PersonageDto(Long id, String name) {
+      super(id);
+      this.name = name;
+   }
+//   private Set<Movies> movies = new HashSet<>();
 
 
 }

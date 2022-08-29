@@ -1,0 +1,42 @@
+package com.santiago.AppDisney.controller;
+
+import com.santiago.AppDisney.domain.Personage;
+import com.santiago.AppDisney.dto.characters.PersonageBaseDto;
+import com.santiago.AppDisney.dto.characters.PersonagePage;
+import com.santiago.AppDisney.repository.PersonageRepository;
+import com.santiago.AppDisney.service.PersonageService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RequestMapping("api/v1/characters")
+@RestController
+public class PersonageController {
+
+    private final PersonageService personageService;
+
+    @Autowired
+
+    public PersonageController(PersonageService characterService) {
+        this.personageService = characterService;
+    }
+    @PostMapping
+    public PersonageBaseDto createCharacter(@RequestBody PersonageBaseDto characterDto){
+        PersonageBaseDto characterDto1 = personageService.createCharacter(characterDto);
+        return characterDto1;
+    }
+
+    @GetMapping
+    public ResponseEntity<PersonagePage> getAll(@RequestParam(required = false,defaultValue = "0") int page,
+                                                @RequestParam(required = false) String prefix
+                                                  ){
+      PersonagePage characteresPage =  personageService.getAllCharacter(page,prefix);
+        return new ResponseEntity<>(characteresPage, HttpStatus.OK);
+    }
+
+
+}
