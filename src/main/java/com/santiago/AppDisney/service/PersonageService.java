@@ -2,8 +2,8 @@ package com.santiago.AppDisney.service;
 
 import com.santiago.AppDisney.converter.PersonageConverter;
 import com.santiago.AppDisney.domain.Personage;
-import com.santiago.AppDisney.dto.characters.PersonageBaseDto;
-import com.santiago.AppDisney.dto.characters.PersonagePage;
+import com.santiago.AppDisney.dto.personage.PersonageBaseDto;
+import com.santiago.AppDisney.util.CustumerPage;
 import com.santiago.AppDisney.repository.PersonageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +11,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,16 +32,16 @@ public class PersonageService {
     }
 
     //update characters
-    public PersonagePage getAllCharacter(int page, String prefix){
+    public CustumerPage getAllCharacter(int page, String prefix){
         Pageable pageable = PageRequest.of(page,3) ;
-        PersonagePage characterPageCustum = new PersonagePage();
+        CustumerPage characterPageCustum = new CustumerPage();
     if(prefix != null){
             Page<Personage> charactersPage = personageRepository.findByName(prefix,pageable);
 
-            characterPageCustum.setContent(charactersPage.getContent().stream().map(characters -> personageConverter.toDtoBase2(characters)).collect(Collectors.toList()));
+            characterPageCustum.setContent(charactersPage.getContent().stream().map(characters -> personageConverter.toDtoBase(characters)).collect(Collectors.toList()));
         }else {
             Page<Personage> charactersPage = personageRepository.findAll(pageable);
-            characterPageCustum.setContent(charactersPage.getContent().stream().map(characters -> personageConverter.toDtoBase(characters)).collect(Collectors.toList()));
+            characterPageCustum.setContent(charactersPage.getContent().stream().map(characters -> personageConverter.toDto(characters)).collect(Collectors.toList()));
 
 
     }

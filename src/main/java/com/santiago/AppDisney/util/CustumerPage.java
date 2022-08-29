@@ -1,4 +1,4 @@
-package com.santiago.AppDisney.dto.characters;
+package com.santiago.AppDisney.util;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;
@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class PersonagePage {
+public class CustumerPage {
     private HttpStatus status;
     private int page;
     private int size;

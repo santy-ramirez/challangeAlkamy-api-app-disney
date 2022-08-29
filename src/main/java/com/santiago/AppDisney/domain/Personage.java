@@ -28,9 +28,9 @@ public class Personage {
         this.movies = movies;
     }
 
-    public Personage(Long id) {
+    public Personage(Long id,String name) {
         this.Id = id;
-
+        this.name = name;
 
     }
 }
