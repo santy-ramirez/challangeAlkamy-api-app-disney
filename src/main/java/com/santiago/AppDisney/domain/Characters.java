@@ -15,9 +15,22 @@ public class Characters {
     private Long Id_character;
     private String name;
 
-    @ManyToMany(mappedBy = "characters")
+    @ManyToMany(mappedBy = "characters", fetch = FetchType.EAGER)
     private Set<Movies> movies = new HashSet<>();
 
     public Characters() {
+    }
+
+    public Characters(Long id_character, String name,  Set<Movies> movies) {
+        Id_character = id_character;
+        this.name = name;
+
+        this.movies = movies;
+    }
+
+    public Characters(Long id_character, String name) {
+        Id_character = id_character;
+        this.name = name;
+
     }
 }
