@@ -1,6 +1,7 @@
 package com.santiago.AppDisney.controller;
 
 import com.santiago.AppDisney.dto.personage.PersonageBaseDto;
+import com.santiago.AppDisney.dto.personage.PersonageDto;
 import com.santiago.AppDisney.util.CustumerPage;
 import com.santiago.AppDisney.service.PersonageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,19 @@ public class PersonageController {
         return characterDto1;
     }
 
+    @PutMapping("{id}")
+    public PersonageBaseDto updatePersonage(@PathVariable Long id, @RequestBody PersonageBaseDto personageBaseDto){
+        return personageService.updatePersonage(id,personageBaseDto);
+    }
+    @DeleteMapping("{id}")
+    public String deletePersonage(@PathVariable Long id){
+        return personageService.deletePersonage(id);
+    }
+
+    @GetMapping("detail")
+    public CustumerPage getAllPersonageDetail(@RequestParam(required = false, defaultValue = "0") int page){
+        return personageService.getAllPersonageDetail(page);
+    }
     @GetMapping
     public ResponseEntity<CustumerPage> getAll(@RequestParam(required = false,defaultValue = "0") int page,
                                                @RequestParam(required = false) String prefix

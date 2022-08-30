@@ -15,7 +15,7 @@ public interface PersonageRepository extends JpaRepository<Personage,Long> {
     @Query("SELECT n FROM Personage n WHERE " +
             "n.name LIKE CONCAT('%',:name, '%')")
     Page<Personage> findByName(String name, Pageable pageable);
-
+    //Page<Personage> findByEqual(Long age);
 
 
 

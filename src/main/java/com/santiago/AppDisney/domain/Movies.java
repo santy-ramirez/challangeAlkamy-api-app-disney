@@ -1,14 +1,16 @@
 package com.santiago.AppDisney.domain;
 
-import lombok.Data;
+import lombok.*;
 
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+
 @Entity
+@Getter
+@Setter
 public class Movies {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -17,8 +19,8 @@ public class Movies {
     @ManyToMany(cascade ={
             CascadeType.PERSIST,CascadeType.MERGE
     },fetch = FetchType.LAZY)
-    @JoinTable(name = "movies_character",joinColumns = @JoinColumn(name="id_movies"),inverseJoinColumns = @JoinColumn(name="id_character"))
-    private Set<Personage> characters = new HashSet<>();
+    @JoinTable(name = "movies_personages",joinColumns = @JoinColumn(name="id_movies"),inverseJoinColumns = @JoinColumn(name="id_personages"))
+    private Set<Personage> personages = new HashSet<>();
 
     public Movies() {
     }
@@ -28,14 +30,25 @@ public class Movies {
         this.title = title;
     }
 
-    public Movies(Long id, String title, Set<Personage> characters) {
+    public Movies(Long id, String title, Set<Personage> personages) {
         Id = id;
         this.title = title;
-        this.characters = characters;
+        this.personages = personages;
     }
 
     public void addPersonage(Personage personage){
-        this.characters.add(personage);
+        this.personages.add(personage);
         personage.getMovies().add(this);
     }
+    public void  remove(Long idPersonage){
+        Personage personage = this.personages.stream().filter(personage1 -> personage1.getId() == idPersonage).findFirst().orElse(null);
+        if(personage != null){
+            this.personages.remove(personage);
+            personage.getMovies().remove(this);
+        }
+
+
+
+    }
+
 }

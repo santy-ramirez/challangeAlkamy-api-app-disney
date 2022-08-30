@@ -50,19 +50,40 @@ public class MoviesService {
         return custumerPage;
     }
 
-    public String getList(Long idMovie, Long idPersonage) throws  RuntimeException{
-       Movies movies = moviesRepository.findById(idMovie).orElseThrow(
-               () -> new RuntimeException("no se encontro el parametro")
+    public MoviesDto getList(Long idMovie, Long idPersonage) throws  RuntimeException{
+        if(! moviesRepository.existsById(idMovie)){
+            throw new RuntimeException("no se encontro con este articulo");
+        }
+     if (! personageRepository.existsById(idPersonage)){
+         throw new RuntimeException("no se encontro personage");
+     }
+       Movies movies= moviesRepository.findById(idMovie).orElseThrow(
+               ()->new RuntimeException("no se encontro peliculas")
        );
+       Personage personage = personageRepository.findById(idPersonage).orElseThrow(
+               ()-> new RuntimeException("no se encontro personages")
+       );
+       Movies movies1 = new Movies();
 
-        Personage personage = personageRepository.findById(idPersonage).orElseThrow(
-                () -> new RuntimeException("no se encontro el parametro")
+       movies.addPersonage(personage);
+       moviesRepository.save(movies);
+       return moviesConverter.toMoviesDto(movies);
+    }
+
+    public MoviesDto deletePersonage(Long idMovie, Long idPersonage){
+        if(! moviesRepository.existsById(idMovie)){
+            throw new RuntimeException("no se encontro con este articulo");
+        }
+        if (! personageRepository.existsById(idPersonage)){
+            throw new RuntimeException("no se encontro personage");
+        }
+        Movies movies= moviesRepository.findById(idMovie).orElseThrow(
+                ()->new RuntimeException("no se encontro peliculas")
         );
-        Set<Personage> movies2 = new HashSet<>();
-        ;
-
-        movies.setCharacters(movies2.stream().map(personage1 -> personageRepository.save(personage1)).collect(Collectors.toSet()));
-        Movies movies1 = moviesRepository.save(movies);
-       return "0k";
+        Personage personage = personageRepository.findById(idPersonage).orElseThrow(
+                ()-> new RuntimeException("no se encontro personages")
+        );
+        movies.remove(idPersonage);
+        return moviesConverter.toMoviesDto(movies);
     }
 }

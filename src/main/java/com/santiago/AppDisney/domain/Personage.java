@@ -1,21 +1,28 @@
 package com.santiago.AppDisney.domain;
 
-import lombok.Data;
+import lombok.*;
 
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+
+
 @Entity
+@Getter
+@Setter
 public class Personage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
     private String name;
 
-    @ManyToMany(mappedBy = "characters", fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "personages", fetch = FetchType.EAGER,cascade = {
+            CascadeType.PERSIST,
+            CascadeType.MERGE
+    }
+    )
     private Set<Movies> movies = new HashSet<>();
 
     public Personage() {
@@ -33,4 +40,6 @@ public class Personage {
         this.name = name;
 
     }
+
+
 }

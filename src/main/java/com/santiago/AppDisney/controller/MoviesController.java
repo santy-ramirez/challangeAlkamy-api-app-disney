@@ -1,6 +1,6 @@
 package com.santiago.AppDisney.controller;
 
-import com.santiago.AppDisney.domain.Movies;
+
 import com.santiago.AppDisney.dto.movies.MoviesBaseDto;
 import com.santiago.AppDisney.dto.movies.MoviesDto;
 import com.santiago.AppDisney.service.MoviesService;
@@ -26,12 +26,20 @@ public class MoviesController {
     }
 
     @PostMapping("{idMovie}/personage/{idPersonage}")
-    public ResponseEntity<String> addPersonage(
+    public ResponseEntity<MoviesDto> addPersonage(
             @PathVariable Long idMovie,
             @PathVariable Long idPersonage
-    ) throws Exception {
+    )  {
  return new ResponseEntity<>(moviesService.getList(idMovie,idPersonage),HttpStatus.OK);
 
+    }
+
+    @DeleteMapping("{idMovie}/personage/{idPersonage}")
+    public  ResponseEntity<MoviesDto>deletePersonage(
+            @PathVariable Long idMovie,
+            @PathVariable Long idPersonage
+    ){
+     return new ResponseEntity<>(moviesService.deletePersonage(idMovie,idPersonage),HttpStatus.OK);
     }
     @GetMapping
     public ResponseEntity getAllMovies(){
