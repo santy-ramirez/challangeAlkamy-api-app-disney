@@ -11,13 +11,11 @@ import java.util.List;
 
 @Repository
 public interface PersonageRepository extends JpaRepository<Personage,Long> {
-
+/*
     @Query("SELECT n FROM Personage n WHERE " +
-            "n.name LIKE CONCAT('%',:name, '%')")
+            "n.name LIKE CONCAT('%',:query, '%')")*/
+@Query("SELECT n FROM Personage n WHERE " +
+        "n.name LIKE CONCAT('%',:name, '%')")
     Page<Personage> findByName(String name, Pageable pageable);
-    //Page<Personage> findByEqual(Long age);
-
-
-
-  /*  List<Personage>  findByName(String name);*/
+    Page<Personage> findAllByAge(Integer age,Pageable pageable);
 }

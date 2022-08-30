@@ -12,5 +12,6 @@ public class MoviesBaseDto {
     public MoviesBaseDto(Long id, String title) {
         Id = id;
         this.title = title;
+
     }
 }

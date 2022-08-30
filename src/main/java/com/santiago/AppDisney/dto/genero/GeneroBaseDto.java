@@ -1,8 +1,10 @@
 package com.santiago.AppDisney.dto.genero;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class GeneroBaseDto {
     private Long id;
     private String name;

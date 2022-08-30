@@ -1,6 +1,7 @@
 package com.santiago.AppDisney.controller;
 
 
+import com.santiago.AppDisney.domain.Movies;
 import com.santiago.AppDisney.dto.movies.MoviesBaseDto;
 import com.santiago.AppDisney.dto.movies.MoviesDto;
 import com.santiago.AppDisney.service.MoviesService;
@@ -20,8 +21,8 @@ public class MoviesController {
     }
 
     @PostMapping
-    public ResponseEntity<MoviesBaseDto> createMovies(@RequestBody MoviesBaseDto moviesBaseDto){
-        return new ResponseEntity<>(moviesService.createMovie(moviesBaseDto), HttpStatus.CREATED);
+    public ResponseEntity<MoviesBaseDto> createMovies(@RequestBody Movies movies){
+        return new ResponseEntity<>(moviesService.createMovie(movies), HttpStatus.CREATED);
 
     }
 
@@ -42,7 +43,7 @@ public class MoviesController {
      return new ResponseEntity<>(moviesService.deletePersonage(idMovie,idPersonage),HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity getAllMovies(){
-        return new ResponseEntity<>(moviesService.getAllMovie(),HttpStatus.OK) ;
+    public ResponseEntity getAllMovies(@RequestParam(required = false)String name){
+        return new ResponseEntity<>(moviesService.getAllMovie(name),HttpStatus.OK) ;
     }
 }

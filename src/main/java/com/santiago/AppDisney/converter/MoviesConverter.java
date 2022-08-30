@@ -2,6 +2,7 @@ package com.santiago.AppDisney.converter;
 
 import com.santiago.AppDisney.domain.Movies;
 import com.santiago.AppDisney.domain.Personage;
+import com.santiago.AppDisney.dto.genero.GeneroBaseDto;
 import com.santiago.AppDisney.dto.movies.MoviesBaseDto;
 import com.santiago.AppDisney.dto.movies.MoviesDto;
 import com.santiago.AppDisney.dto.personage.PersonageBaseDto;
@@ -12,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class MoviesConverter {
-
+GeneroConverter generoConverter = new GeneroConverter();
     public MoviesBaseDto toMovieBaseDto(Movies movies){
         return new MoviesBaseDto(
                 movies.getId(),
@@ -22,7 +23,9 @@ public class MoviesConverter {
         return new MoviesDto(
                 movies.getId(),
                 movies.getTitle(),
-               personageBaseDtoList( movies.getPersonages())
+               personageBaseDtoList( movies.getPersonages()),
+               generoConverter.toGeneroBaseDto(movies.getGenero())
+
         );
     }
 
@@ -34,13 +37,7 @@ public class MoviesConverter {
                 .collect(Collectors.toSet());
     }
 
-    public Movies toMovieEntity(MoviesBaseDto moviesDto){
-        return new Movies(
-                moviesDto.getId(),
-                moviesDto.getTitle()
 
-        );
-    }
 
 
 }

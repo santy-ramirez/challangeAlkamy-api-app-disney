@@ -17,7 +17,8 @@ public class Personage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
     private String name;
-
+    private Integer age;
+    private Long peso;
     @ManyToMany(mappedBy = "personages", fetch = FetchType.EAGER,cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -28,18 +29,11 @@ public class Personage {
     public Personage() {
     }
 
-    public Personage(Long id, String name, Set<Movies> movies) {
-        this.Id = id;
+    public Personage(Long id, String name,Integer age,Long peso, Set<Movies> movies) {
+        Id = id;
         this.name = name;
-
+        this.age = age;
         this.movies = movies;
+        this.peso = peso;
     }
-
-    public Personage(Long id,String name) {
-        this.Id = id;
-        this.name = name;
-
-    }
-
-
 }

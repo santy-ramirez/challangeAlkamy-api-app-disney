@@ -11,6 +11,7 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
+@NoArgsConstructor
 public class Movies {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,18 +23,14 @@ public class Movies {
     @JoinTable(name = "movies_personages",joinColumns = @JoinColumn(name="id_movies"),inverseJoinColumns = @JoinColumn(name="id_personages"))
     private Set<Personage> personages = new HashSet<>();
 
-    public Movies() {
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Genero genero;
 
-    public Movies(Long id, String title) {
-        Id = id;
-        this.title = title;
-    }
-
-    public Movies(Long id, String title, Set<Personage> personages) {
+    public Movies(Long id, String title, Set<Personage> personages, Genero genero) {
         Id = id;
         this.title = title;
         this.personages = personages;
+        this.genero = genero;
     }
 
     public void addPersonage(Personage personage){

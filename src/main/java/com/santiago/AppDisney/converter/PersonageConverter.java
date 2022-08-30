@@ -33,15 +33,12 @@ public class PersonageConverter {
     public Set<MoviesBaseDto> toListPersonageDto(Set<Movies> moviesList){
         return moviesList.stream().map(movie -> new MoviesBaseDto(
                 movie.getId(),
-                movie.getTitle())
+                movie.getTitle()
+
+                )
+
         ).collect(Collectors.toSet());
     }
 
-public Personage toEntityBase(PersonageBaseDto personageBaseDto){
-        return new Personage(
-               personageBaseDto.getId(),
-                personageBaseDto.getName()
 
-        );
-}
 }

@@ -17,11 +17,7 @@ public class GeneroConverter {
                 genero.getId(),
                 genero.getName());
     }
-    public Genero toEntity(GeneroBaseDto generoBaseDto){
-        return new Genero(
-                generoBaseDto.getId(),
-                generoBaseDto.getName());
-    }
+
     public GeneroDto toGeneroDto(Genero genero){
         return new GeneroDto(
                 genero.getId(),
@@ -31,7 +27,10 @@ public class GeneroConverter {
     public List<MoviesBaseDto> toMoviesBaseDtoList(List<Movies> moviesList){
         return moviesList.stream().map(movies -> new MoviesBaseDto(
                 movies.getId(),
-                movies.getTitle()))
+                movies.getTitle()
+
+                ))
                 .collect(Collectors.toList());
     }
+
 }

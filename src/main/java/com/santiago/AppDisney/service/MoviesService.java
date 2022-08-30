@@ -12,11 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,17 +34,24 @@ public class MoviesService {
         this.personageRepository = personageRepository;
     }
 
-    public MoviesBaseDto createMovie(MoviesBaseDto movie){
-      Movies movieSave = moviesConverter.toMovieEntity(movie);
-     Movies movies = moviesRepository.save(movieSave);
+    public MoviesBaseDto createMovie(Movies movie){
+
+     Movies movies = moviesRepository.save(movie);
       return moviesConverter.toMovieBaseDto(movies);
     }
 
-    public CustumerPage getAllMovie(){
-        Pageable pageable = PageRequest.of(0,3);
-        Page<Movies> movies = moviesRepository.findAll(pageable);
+    public CustumerPage getAllMovie(String query){
+        Pageable pageable = PageRequest.of(0,3, Sort.by("title").descending());
+
         CustumerPage custumerPage = new CustumerPage();
-        custumerPage.setContent(movies.getContent().stream().map(movies1 -> moviesConverter.toMovieBaseDto(movies1)).collect(Collectors.toList()));
+        if (query != null){
+            Page<Movies> movies1 = moviesRepository.findByName(query,pageable);
+           custumerPage.setContent( movies1.getContent().stream().map(movies2 -> moviesConverter.toMovieBaseDto(movies2)).collect(Collectors.toList()));
+        }else{
+            Page<Movies> movies = moviesRepository.findAll(pageable);
+            custumerPage.setContent(movies.getContent().stream().map(movies1 -> moviesConverter.toMovieBaseDto(movies1)).collect(Collectors.toList()));
+        }
+
         return custumerPage;
     }
 
@@ -63,7 +68,7 @@ public class MoviesService {
        Personage personage = personageRepository.findById(idPersonage).orElseThrow(
                ()-> new RuntimeException("no se encontro personages")
        );
-       Movies movies1 = new Movies();
+
 
        movies.addPersonage(personage);
        moviesRepository.save(movies);
