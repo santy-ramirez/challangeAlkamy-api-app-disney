@@ -3,7 +3,6 @@ package com.santiago.AppDisney.service;
 import com.santiago.AppDisney.converter.PersonageConverter;
 import com.santiago.AppDisney.domain.Personage;
 import com.santiago.AppDisney.dto.personage.PersonageBaseDto;
-import com.santiago.AppDisney.dto.personage.PersonageDto;
 import com.santiago.AppDisney.util.BuildPage;
 import com.santiago.AppDisney.util.CustumerPage;
 import com.santiago.AppDisney.repository.PersonageRepository;
@@ -62,7 +61,7 @@ public class PersonageService {
                     totalResult(charactersPage.getTotalElements()).
                     content(charactersPage.getContent().
                             stream().
-                            map(personageConverter::toDto).
+                            map(personageConverter::toDtoBase).
                             collect(Collectors.toList()));
 
         }if(age != null){
@@ -74,7 +73,7 @@ public class PersonageService {
                     size(personages.getSize()).
                     content(personages.getContent().
                             stream().
-                            map(personageConverter::toDto).
+                            map(personageConverter::toDtoBase).
                             collect(Collectors.toList()));
 
         }else {

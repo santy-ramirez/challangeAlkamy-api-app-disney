@@ -12,13 +12,18 @@ import java.util.Set;
 @NoArgsConstructor
 public class PersonageDto extends PersonageBaseDto {
 
-
+    private Integer age;
+    private Long peso;
+    private String history;
   private Set<MoviesBaseDto> movies = new HashSet<>();
 
 
 
-   public PersonageDto(Long id, String name, Set<MoviesBaseDto> movies) {
-      super(id, name);
+   public PersonageDto(Long id, String name,String image,Integer age,Long peso,String history, Set<MoviesBaseDto> movies) {
+      super(id, name,image);
       this.movies = movies;
+      this.age = age;
+      this.peso = peso;
+      this.history = history;
    }
 }

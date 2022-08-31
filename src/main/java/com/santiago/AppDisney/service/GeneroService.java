@@ -23,7 +23,6 @@ public class GeneroService {
     }
 
     public GeneroBaseDto createGenero(Genero genero){
-
         generoRepository.save(genero);
         return generoConverter.toGeneroBaseDto(genero);
     }

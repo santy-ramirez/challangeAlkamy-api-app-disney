@@ -10,8 +10,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MoviesRepository extends JpaRepository<Movies,Long> {
-
-
     @Query("SELECT n FROM Movies n WHERE " +
             "n.title LIKE CONCAT('%',:query, '%')")
     Page<Movies> findByName(String query, Pageable pageable);

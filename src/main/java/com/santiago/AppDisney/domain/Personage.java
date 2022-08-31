@@ -19,6 +19,9 @@ public class Personage {
     private String name;
     private Integer age;
     private Long peso;
+    private String history;
+
+    private String image;
     @ManyToMany(mappedBy = "personages", fetch = FetchType.EAGER,cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -29,11 +32,12 @@ public class Personage {
     public Personage() {
     }
 
-    public Personage(Long id, String name,Integer age,Long peso, Set<Movies> movies) {
+    public Personage(Long id, String name,Integer age,Long peso,String history, Set<Movies> movies) {
         Id = id;
         this.name = name;
         this.age = age;
         this.movies = movies;
         this.peso = peso;
+        this.history = history;
     }
 }

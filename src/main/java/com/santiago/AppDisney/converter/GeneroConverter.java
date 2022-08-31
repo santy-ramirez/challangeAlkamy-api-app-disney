@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class GeneroConverter {
+
     public GeneroBaseDto toGeneroBaseDto(Genero genero){
         return new GeneroBaseDto(
                 genero.getId(),
@@ -27,7 +28,9 @@ public class GeneroConverter {
     public List<MoviesBaseDto> toMoviesBaseDtoList(List<Movies> moviesList){
         return moviesList.stream().map(movies -> new MoviesBaseDto(
                 movies.getId(),
-                movies.getTitle()
+                movies.getTitle(),
+                movies.getImage(),
+                movies.getCreateAt()
 
                 ))
                 .collect(Collectors.toList());

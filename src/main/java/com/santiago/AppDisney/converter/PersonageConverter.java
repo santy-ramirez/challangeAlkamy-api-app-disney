@@ -18,7 +18,9 @@ public class PersonageConverter {
     public PersonageBaseDto toDtoBase(Personage personage){
         return new PersonageBaseDto(
                 personage.getId(),
-                personage.getName());
+                personage.getName(),
+                personage.getImage()
+        );
 
     }
 
@@ -26,19 +28,24 @@ public class PersonageConverter {
         return new PersonageDto(
                 personage.getId(),
                 personage.getName(),
-                toListPersonageDto(personage.getMovies()));
+                personage.getImage(),
+                personage.getAge(),
+                personage.getPeso(),
+                personage.getHistory(),
+                toListPersonageDto(personage.getMovies())
+        );
 
     }
 
     public Set<MoviesBaseDto> toListPersonageDto(Set<Movies> moviesList){
         return moviesList.stream().map(movie -> new MoviesBaseDto(
                 movie.getId(),
-                movie.getTitle()
-
+                movie.getTitle(),
+                movie.getImage(),
+                movie.getCreateAt()
                 )
 
         ).collect(Collectors.toSet());
     }
-
 
 }

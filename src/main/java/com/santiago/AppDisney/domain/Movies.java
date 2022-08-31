@@ -4,6 +4,7 @@ import lombok.*;
 
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -16,7 +17,10 @@ public class Movies {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long Id;
+    private String image;
     private String title;
+    private LocalDate createAt;
+    private Integer calification;
     @ManyToMany(cascade ={
             CascadeType.PERSIST,CascadeType.MERGE
     },fetch = FetchType.LAZY)
@@ -26,7 +30,12 @@ public class Movies {
     @ManyToOne(fetch = FetchType.LAZY)
     private Genero genero;
 
-    public Movies(Long id, String title, Set<Personage> personages, Genero genero) {
+    public Movies(
+            Long id,
+            String title,
+            Set<Personage> personages,
+            Genero genero
+    ) {
         Id = id;
         this.title = title;
         this.personages = personages;
@@ -38,7 +47,9 @@ public class Movies {
         personage.getMovies().add(this);
     }
     public void  remove(Long idPersonage){
-        Personage personage = this.personages.stream().filter(personage1 -> personage1.getId() == idPersonage).findFirst().orElse(null);
+        Personage personage = this.personages.
+                stream().filter(personage1 -> personage1.getId() == idPersonage).
+                findFirst().orElse(null);
         if(personage != null){
             this.personages.remove(personage);
             personage.getMovies().remove(this);
