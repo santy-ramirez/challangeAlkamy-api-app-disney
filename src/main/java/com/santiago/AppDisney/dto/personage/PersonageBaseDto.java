@@ -6,12 +6,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class PersonageBaseDto {
-    private Long Id;
+
     private String name;
     private String image;
 
-    public PersonageBaseDto(Long id, String name,String image) {
-        Id = id;
+    public PersonageBaseDto( String name,String image) {
+
         this.name = name;
         this.image = image;
     }

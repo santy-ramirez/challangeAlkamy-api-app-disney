@@ -4,6 +4,7 @@ package com.santiago.AppDisney.controller;
 import com.santiago.AppDisney.domain.Movies;
 import com.santiago.AppDisney.dto.movies.MoviesBaseDto;
 import com.santiago.AppDisney.dto.movies.MoviesDto;
+import com.santiago.AppDisney.dto.movies.MoviesQueryDto;
 import com.santiago.AppDisney.service.MoviesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,7 @@ public class MoviesController {
     }
 
     @PostMapping
-    public ResponseEntity<MoviesBaseDto> createMovies(@RequestBody Movies movies){
+    public ResponseEntity<MoviesQueryDto> createMovies(@RequestBody MoviesQueryDto movies){
         return new ResponseEntity<>(moviesService.createMovie(movies), HttpStatus.CREATED);
 
     }

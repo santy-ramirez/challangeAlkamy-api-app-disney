@@ -22,23 +22,25 @@ public class GeneroService {
         this.generoConverter = generoConverter;
     }
 
-    public GeneroBaseDto createGenero(Genero genero){
-        generoRepository.save(genero);
-        return generoConverter.toGeneroBaseDto(genero);
+    public GeneroBaseDto createGenero(GeneroBaseDto genero){
+      Genero genero1 =  generoConverter.toTestGeneroEntity(genero);
+        generoRepository.save(genero1);
+        return generoConverter.toTestGeneroDto(genero1);
     }
 
-    public GeneroBaseDto updateGenero(Long id,Genero genero){
+    public GeneroBaseDto updateGenero(Long id,GeneroBaseDto generoBaseDto){
         Genero generoEntity = generoRepository.findById(id).orElseThrow(
                 ()-> new RuntimeException("Not found genero ")
         );
         generoEntity.setId(id);
-        generoEntity.setName(genero.getName());
-        return generoConverter.toGeneroBaseDto(generoEntity);
+        generoEntity.setName(generoBaseDto.getName());
+        generoRepository.save(generoEntity);
+        return generoConverter.toTestGeneroDto(generoEntity);
     }
 
     public List<GeneroDto> getAllGenero(){
         List<Genero> genero = generoRepository.findAll();
-         List<GeneroDto> generoDtos = genero.stream().map(genero1 -> generoConverter.toGeneroDto(genero1)).collect(Collectors.toList());
+         List<GeneroDto> generoDtos = genero.stream().map(generoConverter::toTestCompleteGeneroDto).collect(Collectors.toList());
          return generoDtos;
     }
 }

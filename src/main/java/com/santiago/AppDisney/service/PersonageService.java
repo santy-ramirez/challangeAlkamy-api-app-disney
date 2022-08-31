@@ -3,6 +3,8 @@ package com.santiago.AppDisney.service;
 import com.santiago.AppDisney.converter.PersonageConverter;
 import com.santiago.AppDisney.domain.Personage;
 import com.santiago.AppDisney.dto.personage.PersonageBaseDto;
+import com.santiago.AppDisney.dto.personage.PersonageDto;
+import com.santiago.AppDisney.dto.personage.PersonageQueryDto;
 import com.santiago.AppDisney.util.BuildPage;
 import com.santiago.AppDisney.util.CustumerPage;
 import com.santiago.AppDisney.repository.PersonageRepository;
@@ -27,19 +29,24 @@ public class PersonageService {
     }
 
     //create characters
-    public PersonageBaseDto createCharacter(Personage personage){
+    public PersonageQueryDto createCharacter(PersonageQueryDto personageQueryDto){
+       Personage personage = personageConverter.toPersonageQueryEntity(personageQueryDto);
         Personage characters1 = personageRepository.save(personage);
-        return personageConverter.toDtoBase(characters1);
+        PersonageQueryDto personageDto = personageConverter.toPersonageQueryDto(characters1);
+        return personageDto;
     }
 
-    public PersonageBaseDto updatePersonage(Long id,Personage personage){
+    public PersonageQueryDto updatePersonage(Long id,PersonageQueryDto personage){
         Personage personage1 = personageRepository.findById(id).orElseThrow(
-                ()-> new RuntimeException("not find personage")
+                ()-> new RuntimeException("not found personage")
         );
         personage1.setId(id);
         personage1.setName(personage.getName());
+        personage1.setPeso(personage.getPeso());
+        personage1.setImage(personage.getImage());
+        personage1.setAge(personage.getAge());
         personageRepository.save(personage1);
-        return personageConverter.toDtoBase(personage1);
+        return personageConverter.toPersonageQueryDto(personage1);
     }
 
     public String deletePersonage(Long id){
@@ -48,12 +55,12 @@ public class PersonageService {
     }
 
     //update characters
-    public CustumerPage getAllCharacter(int page, String name,Integer age){
+    public CustumerPage getAllPersonages(int page, String name,Integer age){
         Pageable pageable = PageRequest.of(page,3) ;
         BuildPage buildPage = new BuildPage();
-
-        if(name != null){
-            Page<Personage> charactersPage = personageRepository.findByName(name,pageable);
+       Boolean notIsNull = notIqualNull(age,name);
+        if(notIsNull){
+            Page<Personage> charactersPage = personageRepository.findAllByNameOrAge(name,age,pageable);
             buildPage.
                     status(HttpStatus.OK).
                     page(charactersPage.getTotalPages()).
@@ -64,19 +71,7 @@ public class PersonageService {
                             map(personageConverter::toDtoBase).
                             collect(Collectors.toList()));
 
-        }if(age != null){
-            Page<Personage> personages = personageRepository.findAllByAge(age,pageable);
-            buildPage.
-                    status(HttpStatus.OK).
-                    page(personages.getTotalPages()).
-                    totalResult(personages.getTotalElements()).
-                    size(personages.getSize()).
-                    content(personages.getContent().
-                            stream().
-                            map(personageConverter::toDtoBase).
-                            collect(Collectors.toList()));
-
-        }else {
+        } else {
             Page<Personage> charactersPage = personageRepository.findAll(pageable);
             buildPage.
                     page(charactersPage.getTotalPages()).
@@ -93,7 +88,15 @@ public class PersonageService {
         return buildPage.build();
     }
 
-
+    private Boolean notIqualNull(Integer age,String name){
+        if(age!=null){
+            return true;
+        }
+        if (name != null){
+            return true;
+        }
+            return false;
+ }
 
 
 }

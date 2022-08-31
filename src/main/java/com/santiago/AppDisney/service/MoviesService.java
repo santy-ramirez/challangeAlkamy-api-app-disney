@@ -5,6 +5,7 @@ import com.santiago.AppDisney.domain.Movies;
 import com.santiago.AppDisney.domain.Personage;
 import com.santiago.AppDisney.dto.movies.MoviesBaseDto;
 import com.santiago.AppDisney.dto.movies.MoviesDto;
+import com.santiago.AppDisney.dto.movies.MoviesQueryDto;
 import com.santiago.AppDisney.repository.MoviesRepository;
 import com.santiago.AppDisney.repository.PersonageRepository;
 import com.santiago.AppDisney.util.BuildPage;
@@ -36,9 +37,11 @@ public class MoviesService {
         this.personageRepository = personageRepository;
     }
 
-    public MoviesBaseDto createMovie(Movies movie){
-     Movies movies = moviesRepository.save(movie);
-      return moviesConverter.toMovieBaseDto(movies);
+    public MoviesQueryDto createMovie(MoviesQueryDto movie){
+     Movies movies = moviesConverter.toMovieQueryEntity(movie);
+    Movies moviesSaved = moviesRepository.save(movies);
+
+      return moviesConverter.toMoviesQueryDto(movies);
     }
 
     public CustumerPage getAllMovie(String query){

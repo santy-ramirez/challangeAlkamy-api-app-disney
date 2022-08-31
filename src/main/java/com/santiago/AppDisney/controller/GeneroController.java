@@ -7,6 +7,7 @@ import com.santiago.AppDisney.service.GeneroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,12 +21,12 @@ public class GeneroController {
     }
 
     @PostMapping
-    public GeneroBaseDto createGenero(@RequestBody Genero genero){
+    public GeneroBaseDto createGenero(@RequestBody GeneroBaseDto genero){
     return generoService.createGenero(genero);
     }
 
     @PutMapping("{id}")
-    public GeneroBaseDto updateGenero(@PathVariable Long id, Genero genero){
+    public GeneroBaseDto updateGenero(@PathVariable Long id,@RequestBody @Valid GeneroBaseDto genero){
         return generoService.updateGenero(id,genero);
     }
     @GetMapping
@@ -33,4 +34,13 @@ public class GeneroController {
         return generoService.getAllGenero();
     }
 
+   /* @GetMapping(params = "hola")
+    public String hola(@RequestParam("hola") String hola){
+        return "hola"+hola;
+    }
+
+    @GetMapping(params = "name")
+    public String hola2(@RequestParam("name") String name){
+        return "hola"+name;
+    }*/
 }

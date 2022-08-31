@@ -19,7 +19,7 @@ public class Movies {
     private Long Id;
     private String image;
     private String title;
-    private LocalDate createAt;
+    private LocalDate createAt = LocalDate.now();
     private Integer calification;
     @ManyToMany(cascade ={
             CascadeType.PERSIST,CascadeType.MERGE

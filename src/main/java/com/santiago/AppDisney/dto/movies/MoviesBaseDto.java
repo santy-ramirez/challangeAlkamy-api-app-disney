@@ -1,5 +1,6 @@
 package com.santiago.AppDisney.dto.movies;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 public class MoviesBaseDto {
+    @JsonIgnore
     private Long Id;
     private String title;
     private String image;

@@ -13,24 +13,33 @@ import java.util.stream.Collectors;
 @Component
 public class GeneroConverter {
 
-    public GeneroBaseDto toGeneroBaseDto(Genero genero){
-        return new GeneroBaseDto(
-                genero.getId(),
-                genero.getName());
+
+    public GeneroBaseDto toTestGeneroDto(Genero genero){
+        GeneroBaseDto generoBaseDto = new GeneroBaseDto();
+        generoBaseDto.setId(genero.getId());
+        generoBaseDto.setName(genero.getName());
+        return generoBaseDto;
     }
 
-    public GeneroDto toGeneroDto(Genero genero){
-        return new GeneroDto(
-                genero.getId(),
-                genero.getName(),
-                toMoviesBaseDtoList(genero.getMovies()));
+    public  Genero toTestGeneroEntity(GeneroBaseDto generoBaseDto){
+        Genero genero = new Genero();
+        genero.setId(genero.getId());
+        genero.setName(generoBaseDto.getName());
+        return genero;
+    }
+    public  GeneroDto toTestCompleteGeneroDto(Genero genero){
+        GeneroDto generoDto = new GeneroDto();
+        generoDto.setId(generoDto.getId());
+        generoDto.setName(genero.getName());
+        generoDto.setMoviesBaseDtoList(toMoviesBaseDtoList(genero.getMovies()));
+        return generoDto;
     }
     public List<MoviesBaseDto> toMoviesBaseDtoList(List<Movies> moviesList){
         return moviesList.stream().map(movies -> new MoviesBaseDto(
-                movies.getId(),
-                movies.getTitle(),
-                movies.getImage(),
-                movies.getCreateAt()
+                        movies.getId(),
+                        movies.getTitle(),
+                        movies.getImage(),
+                        movies.getCreateAt()
 
                 ))
                 .collect(Collectors.toList());

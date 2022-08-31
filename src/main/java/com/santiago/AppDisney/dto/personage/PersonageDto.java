@@ -19,8 +19,8 @@ public class PersonageDto extends PersonageBaseDto {
 
 
 
-   public PersonageDto(Long id, String name,String image,Integer age,Long peso,String history, Set<MoviesBaseDto> movies) {
-      super(id, name,image);
+   public PersonageDto( String name,String image,Integer age,Long peso,String history, Set<MoviesBaseDto> movies) {
+      super( name,image);
       this.movies = movies;
       this.age = age;
       this.peso = peso;

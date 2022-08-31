@@ -3,6 +3,7 @@ package com.santiago.AppDisney.controller;
 import com.santiago.AppDisney.domain.Personage;
 import com.santiago.AppDisney.dto.personage.PersonageBaseDto;
 import com.santiago.AppDisney.dto.personage.PersonageDto;
+import com.santiago.AppDisney.dto.personage.PersonageQueryDto;
 import com.santiago.AppDisney.util.CustumerPage;
 import com.santiago.AppDisney.service.PersonageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ public class PersonageController {
         this.personageService = characterService;
     }
     @PostMapping
-    public PersonageBaseDto createCharacter(@RequestBody Personage personage){
-        PersonageBaseDto characterDto1 = personageService.createCharacter(personage);
-        return characterDto1;
+    public PersonageQueryDto createCharacter(@RequestBody PersonageQueryDto personage){
+        PersonageQueryDto characterDto = personageService.createCharacter(personage);
+        return characterDto;
     }
 
     @PutMapping("{id}")
-    public PersonageBaseDto updatePersonage(@PathVariable Long id, @RequestBody Personage personage){
+    public PersonageQueryDto updatePersonage(@PathVariable Long id, @RequestBody PersonageQueryDto personage){
         return personageService.updatePersonage(id,personage);
     }
     @DeleteMapping("{id}")
@@ -42,8 +43,8 @@ public class PersonageController {
                                                @RequestParam(required = false) String name,
                                                @RequestParam(required = false) Integer age
                                                   ){
-      CustumerPage characteresPage =  personageService.getAllCharacter(page,name,age);
-        return new ResponseEntity<>(characteresPage, HttpStatus.OK);
+      CustumerPage personages =  personageService.getAllPersonages(page,name,age);
+        return new ResponseEntity<>(personages, HttpStatus.OK);
     }
 
 
