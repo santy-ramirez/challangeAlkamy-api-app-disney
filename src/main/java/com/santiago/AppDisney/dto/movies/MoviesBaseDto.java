@@ -13,7 +13,7 @@ public class MoviesBaseDto {
     private Long Id;
     private String title;
     private String image;
-    private LocalDate createAt;
+    private LocalDate createAt=LocalDate.now();
 
     public MoviesBaseDto(Long id, String title,String image,LocalDate createAt) {
         Id = id;

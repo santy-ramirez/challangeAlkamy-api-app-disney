@@ -1,5 +1,6 @@
 package com.santiago.AppDisney.util;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
@@ -10,24 +11,18 @@ public class BuildPage {
     public BuildPage(){
         this.custumerPage =new CustumerPage();
     }
-    public BuildPage status(HttpStatus status){
-        this.custumerPage.setStatus(status);
-        return this;
-    }
-    public BuildPage page(int page){
-        this.custumerPage.setPage(page);
-        return this;
-    }
-    public BuildPage size(int size){
-        this.custumerPage.setSize(size);
-        return this;
-    }
-    public  BuildPage totalResult(Long totalResult){
-        this.custumerPage.setTotalResult(totalResult);
-        return this;
-    }
+
     public BuildPage content(List<?> content){
         this.custumerPage.setContent(content);
+        return this;
+    }
+
+
+    public  BuildPage paginate(Page page){
+        this.custumerPage.setPage(page.getTotalPages());
+        this.custumerPage.setSize(page.getSize());
+        this.custumerPage.setStatus(HttpStatus.OK);
+        this.custumerPage.setTotalResult(page.getTotalElements());
         return this;
     }
     public CustumerPage build(){

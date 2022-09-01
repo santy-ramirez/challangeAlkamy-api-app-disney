@@ -25,8 +25,9 @@ GeneroConverter generoConverter = new GeneroConverter();
        MoviesDto moviesObject = new MoviesDto();
        moviesObject.setCalification(movies.getCalification());
        moviesObject.setCreateAt(movies.getCreateAt());
+       moviesObject.setTitle(movies.getTitle());
        moviesObject.setImage(movies.getImage());
-       moviesObject.setGeneroBaseDto(generoConverter.toTestGeneroDto(movies.getGenero()));
+       moviesObject.setGeneroBaseDto(generoConverter.toGeneroDto(movies.getGenero()));
        moviesObject.setCharacters(personageBaseDtoList(movies.getPersonages()));
       return moviesObject;
     }
@@ -41,7 +42,7 @@ GeneroConverter generoConverter = new GeneroConverter();
 
     public MoviesQueryDto toMoviesQueryDto(Movies movies){
         MoviesQueryDto moviesQueryDto = new MoviesQueryDto();
-        moviesQueryDto.setGeneroBaseDto(generoConverter.toTestGeneroDto( movies.getGenero()));
+        moviesQueryDto.setGeneroBaseDto(generoConverter.toGeneroDto( movies.getGenero()));
         moviesQueryDto.setCalification(movies.getCalification());
         moviesQueryDto.setCreateAt(movies.getCreateAt());
         moviesQueryDto.setTitle(movies.getTitle());
@@ -51,7 +52,7 @@ GeneroConverter generoConverter = new GeneroConverter();
 
     public  Movies toMovieQueryEntity(MoviesQueryDto moviesQueryDto){
         Movies movies = new Movies();
-        movies.setGenero(generoConverter.toTestGeneroEntity(moviesQueryDto.getGeneroBaseDto()));
+        movies.setGenero(generoConverter.toGeneroEntity(moviesQueryDto.getGeneroBaseDto()));
         movies.setImage(moviesQueryDto.getImage());
         movies.setCalification(moviesQueryDto.getCalification());
         movies.setTitle(moviesQueryDto.getTitle());

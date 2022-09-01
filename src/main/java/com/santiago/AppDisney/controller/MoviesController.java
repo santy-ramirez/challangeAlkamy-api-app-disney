@@ -30,18 +30,16 @@ public class MoviesController {
     @PostMapping("{idMovie}/personage/{idPersonage}")
     public ResponseEntity<MoviesDto> addPersonage(
             @PathVariable Long idMovie,
-            @PathVariable Long idPersonage
-    )  {
- return new ResponseEntity<>(moviesService.getList(idMovie,idPersonage),HttpStatus.OK);
+            @PathVariable Long idPersonage) {
+        return new ResponseEntity<>(moviesService.getList(idMovie,idPersonage),HttpStatus.OK);
 
     }
 
     @DeleteMapping("{idMovie}/personage/{idPersonage}")
     public  ResponseEntity<MoviesDto>deletePersonage(
             @PathVariable Long idMovie,
-            @PathVariable Long idPersonage
-    ){
-     return new ResponseEntity<>(moviesService.deletePersonage(idMovie,idPersonage),HttpStatus.OK);
+            @PathVariable Long idPersonage){
+        return new ResponseEntity<>(moviesService.deletePersonage(idMovie,idPersonage),HttpStatus.OK);
     }
     @GetMapping
     public ResponseEntity getAllMovies(@RequestParam(required = false)String name){

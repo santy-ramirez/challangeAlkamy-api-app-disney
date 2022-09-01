@@ -19,13 +19,13 @@ public class PersonageController {
 
     @Autowired
 
-    public PersonageController(PersonageService characterService) {
-        this.personageService = characterService;
+    public PersonageController(PersonageService personageService) {
+        this.personageService = personageService;
     }
     @PostMapping
     public PersonageQueryDto createCharacter(@RequestBody PersonageQueryDto personage){
-        PersonageQueryDto characterDto = personageService.createCharacter(personage);
-        return characterDto;
+        PersonageQueryDto personageDto = personageService.createCharacter(personage);
+        return personageDto;
     }
 
     @PutMapping("{id}")

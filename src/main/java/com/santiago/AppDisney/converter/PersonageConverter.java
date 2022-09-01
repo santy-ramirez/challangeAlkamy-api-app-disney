@@ -29,6 +29,8 @@ public class PersonageConverter {
         personageDto.setAge(personage.getAge());
         personageDto.setHistory(personage.getHistory());
         personageDto.setPeso(personage.getPeso());
+        personageDto.setName(personage.getName());
+        personageDto.setImage(personage.getImage());
         personageDto.setMovies(toListPersonageDto(personage.getMovies()));
     return personageDto;
     }

@@ -17,15 +17,17 @@ public class GeneroService {
     private final GeneroConverter generoConverter;
 
     @Autowired
-    public GeneroService(GeneroRepository generoRepository, GeneroConverter generoConverter) {
+    public GeneroService(
+            GeneroRepository generoRepository,
+            GeneroConverter generoConverter) {
         this.generoRepository = generoRepository;
         this.generoConverter = generoConverter;
     }
 
     public GeneroBaseDto createGenero(GeneroBaseDto genero){
-      Genero genero1 =  generoConverter.toTestGeneroEntity(genero);
-        generoRepository.save(genero1);
-        return generoConverter.toTestGeneroDto(genero1);
+      Genero generoEntity =  generoConverter.toGeneroEntity(genero);
+        generoRepository.save(generoEntity);
+        return generoConverter.toGeneroDto(generoEntity);
     }
 
     public GeneroBaseDto updateGenero(Long id,GeneroBaseDto generoBaseDto){
@@ -35,12 +37,12 @@ public class GeneroService {
         generoEntity.setId(id);
         generoEntity.setName(generoBaseDto.getName());
         generoRepository.save(generoEntity);
-        return generoConverter.toTestGeneroDto(generoEntity);
+        return generoConverter.toGeneroDto(generoEntity);
     }
 
     public List<GeneroDto> getAllGenero(){
         List<Genero> genero = generoRepository.findAll();
-         List<GeneroDto> generoDtos = genero.stream().map(generoConverter::toTestCompleteGeneroDto).collect(Collectors.toList());
+         List<GeneroDto> generoDtos = genero.stream().map(generoConverter::toCompleteGeneroDto).collect(Collectors.toList());
          return generoDtos;
     }
 }

@@ -2,8 +2,6 @@ package com.santiago.AppDisney.service;
 
 import com.santiago.AppDisney.converter.PersonageConverter;
 import com.santiago.AppDisney.domain.Personage;
-import com.santiago.AppDisney.dto.personage.PersonageBaseDto;
-import com.santiago.AppDisney.dto.personage.PersonageDto;
 import com.santiago.AppDisney.dto.personage.PersonageQueryDto;
 import com.santiago.AppDisney.util.BuildPage;
 import com.santiago.AppDisney.util.CustumerPage;
@@ -12,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Collectors;
@@ -30,23 +27,23 @@ public class PersonageService {
 
     //create characters
     public PersonageQueryDto createCharacter(PersonageQueryDto personageQueryDto){
-       Personage personage = personageConverter.toPersonageQueryEntity(personageQueryDto);
-        Personage characters1 = personageRepository.save(personage);
-        PersonageQueryDto personageDto = personageConverter.toPersonageQueryDto(characters1);
+        Personage personageEntity = personageConverter.toPersonageQueryEntity(personageQueryDto);
+        Personage personage = personageRepository.save(personageEntity);
+        PersonageQueryDto personageDto = personageConverter.toPersonageQueryDto(personage);
         return personageDto;
     }
 
     public PersonageQueryDto updatePersonage(Long id,PersonageQueryDto personage){
-        Personage personage1 = personageRepository.findById(id).orElseThrow(
+        Personage personageEntity = personageRepository.findById(id).orElseThrow(
                 ()-> new RuntimeException("not found personage")
         );
-        personage1.setId(id);
-        personage1.setName(personage.getName());
-        personage1.setPeso(personage.getPeso());
-        personage1.setImage(personage.getImage());
-        personage1.setAge(personage.getAge());
-        personageRepository.save(personage1);
-        return personageConverter.toPersonageQueryDto(personage1);
+        personageEntity.setId(id);
+        personageEntity.setName(personage.getName());
+        personageEntity.setPeso(personage.getPeso());
+        personageEntity.setImage(personage.getImage());
+        personageEntity.setAge(personage.getAge());
+        personageRepository.save(personageEntity);
+        return personageConverter.toPersonageQueryDto(personageEntity);
     }
 
     public String deletePersonage(Long id){
@@ -58,45 +55,31 @@ public class PersonageService {
     public CustumerPage getAllPersonages(int page, String name,Integer age){
         Pageable pageable = PageRequest.of(page,3) ;
         BuildPage buildPage = new BuildPage();
-       Boolean notIsNull = notIqualNull(age,name);
+        Boolean notIsNull = notIqualNull(age,name);
         if(notIsNull){
-            Page<Personage> charactersPage = personageRepository.findAllByNameOrAge(name,age,pageable);
-            buildPage.
-                    status(HttpStatus.OK).
-                    page(charactersPage.getTotalPages()).
-                    size(charactersPage.getSize()).
-                    totalResult(charactersPage.getTotalElements()).
-                    content(charactersPage.getContent().
-                            stream().
+            Page<Personage> personageFilter = personageRepository.findAllByNameOrAge(name,age,pageable);
+            buildPage.paginate(personageFilter).content(personageFilter.getContent().stream().
                             map(personageConverter::toDtoBase).
                             collect(Collectors.toList()));
 
         } else {
-            Page<Personage> charactersPage = personageRepository.findAll(pageable);
-            buildPage.
-                    page(charactersPage.getTotalPages()).
-                    size(charactersPage.getSize()).
-                    totalResult(charactersPage.getTotalElements()).
-                    content(charactersPage.getContent().
-                            stream().
+            Page<Personage> personages = personageRepository.findAll(pageable);
+            buildPage.paginate(personages).content(personages.getContent().stream().
                             map(personageConverter::toDto).
                             collect(Collectors.toList()));
 
 
     }
-
         return buildPage.build();
     }
 
     private Boolean notIqualNull(Integer age,String name){
         if(age!=null){
-            return true;
-        }
+            return true;}
         if (name != null){
-            return true;
-        }
-            return false;
- }
+            return true;}
+        return false;
+    }
 
 
 }

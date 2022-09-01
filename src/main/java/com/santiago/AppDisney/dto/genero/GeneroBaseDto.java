@@ -9,7 +9,7 @@ import javax.validation.constraints.NotBlank;
 @Data
 @NoArgsConstructor
 public class GeneroBaseDto {
-    @JsonIgnore
+
     private Long id;
     @NotBlank
     private String name;
