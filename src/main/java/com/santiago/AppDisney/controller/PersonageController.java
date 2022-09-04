@@ -9,8 +9,14 @@ import com.santiago.AppDisney.service.PersonageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
+@Validated
 @RequestMapping("api/v1/characters")
 @RestController
 public class PersonageController {
@@ -23,24 +29,24 @@ public class PersonageController {
         this.personageService = personageService;
     }
     @PostMapping
-    public PersonageQueryDto createCharacter(@RequestBody PersonageQueryDto personage){
+    public ResponseEntity<PersonageQueryDto>  createCharacter(@RequestBody @Valid PersonageQueryDto personage){
         PersonageQueryDto personageDto = personageService.createCharacter(personage);
-        return personageDto;
+        return new ResponseEntity<>(personageDto,HttpStatus.CREATED) ;
     }
 
     @PutMapping("{id}")
-    public PersonageQueryDto updatePersonage(@PathVariable Long id, @RequestBody PersonageQueryDto personage){
-        return personageService.updatePersonage(id,personage);
+    public ResponseEntity<PersonageQueryDto>  updatePersonage(@PathVariable Long id, @RequestBody @Valid PersonageQueryDto personage){
+        return new ResponseEntity<>(personageService.updatePersonage(id,personage),HttpStatus.OK) ;
     }
     @DeleteMapping("{id}")
-    public String deletePersonage(@PathVariable Long id){
-        return personageService.deletePersonage(id);
+    public ResponseEntity<String>  deletePersonage(@PathVariable Long id){
+        return new ResponseEntity<>(personageService.deletePersonage(id),HttpStatus.OK);
     }
 
 
     @GetMapping
-    public ResponseEntity<CustumerPage> getAll(@RequestParam(required = false,defaultValue = "0") int page,
-                                               @RequestParam(required = false) String name,
+    public ResponseEntity<CustumerPage> getAll(@RequestParam(required = false,defaultValue = "0") @Valid @Positive int page,
+                                               @RequestParam(required = false) @Valid @Size(min = 3, max = 20) String name,
                                                @RequestParam(required = false) Integer age
                                                   ){
       CustumerPage personages =  personageService.getAllPersonages(page,name,age);
