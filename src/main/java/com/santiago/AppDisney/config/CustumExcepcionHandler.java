@@ -41,4 +41,16 @@ public class CustumExcepcionHandler extends ResponseEntityExceptionHandler {
         error.setSubError(subErrors);
         return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> headleRunTimeExcepcion(RuntimeException ex,
+                                                         WebRequest request
+
+                                                         ){
+        ErrorEx errorEx = new ErrorEx();
+        errorEx.setStatus(HttpStatus.BAD_REQUEST);
+        errorEx.setMessage(ex.getMessage());
+
+        return new  ResponseEntity<Object>(errorEx,HttpStatus.BAD_REQUEST) ;
+    };
 }
