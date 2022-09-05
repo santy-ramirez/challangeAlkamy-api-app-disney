@@ -31,7 +31,7 @@ public class GeneroConverter {
         GeneroDto generoDto = new GeneroDto();
         generoDto.setId(genero.getId());
         generoDto.setName(genero.getName());
-        generoDto.setMoviesBaseDtoList(toMoviesBaseDtoList(genero.getMovies()));
+        generoDto.setMovies(toMoviesBaseDtoList(genero.getMovies()));
         return generoDto;
     }
     public List<MoviesBaseDto> toMoviesBaseDtoList(List<Movies> moviesList){

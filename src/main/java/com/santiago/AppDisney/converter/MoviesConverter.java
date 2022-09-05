@@ -2,6 +2,7 @@ package com.santiago.AppDisney.converter;
 
 import com.santiago.AppDisney.domain.Movies;
 import com.santiago.AppDisney.domain.Personage;
+import com.santiago.AppDisney.dto.movies.MovieResponseDto;
 import com.santiago.AppDisney.dto.movies.MoviesBaseDto;
 import com.santiago.AppDisney.dto.movies.MoviesDto;
 import com.santiago.AppDisney.dto.movies.MoviesQueryDto;
@@ -27,7 +28,7 @@ GeneroConverter generoConverter = new GeneroConverter();
        moviesObject.setCreateAt(movies.getCreateAt());
        moviesObject.setTitle(movies.getTitle());
        moviesObject.setImage(movies.getImage());
-       moviesObject.setGeneroBaseDto(generoConverter.toGeneroDto(movies.getGenero()));
+       moviesObject.setGenero(generoConverter.toGeneroDto(movies.getGenero()));
        moviesObject.setCharacters(personageBaseDtoList(movies.getPersonages()));
       return moviesObject;
     }
@@ -42,7 +43,7 @@ GeneroConverter generoConverter = new GeneroConverter();
 
     public MoviesQueryDto toMoviesQueryDto(Movies movies){
         MoviesQueryDto moviesQueryDto = new MoviesQueryDto();
-        moviesQueryDto.setGeneroBaseDto(generoConverter.toGeneroDto( movies.getGenero()));
+        moviesQueryDto.setGenero(generoConverter.toGeneroDto( movies.getGenero()));
         moviesQueryDto.setCalification(movies.getCalification());
         moviesQueryDto.setCreateAt(movies.getCreateAt());
         moviesQueryDto.setTitle(movies.getTitle());
@@ -52,12 +53,21 @@ GeneroConverter generoConverter = new GeneroConverter();
 
     public  Movies toMovieQueryEntity(MoviesQueryDto moviesQueryDto){
         Movies movies = new Movies();
-        movies.setGenero(generoConverter.toGeneroEntity(moviesQueryDto.getGeneroBaseDto()));
+        movies.setGenero(generoConverter.toGeneroEntity(moviesQueryDto.getGenero()));
         movies.setImage(moviesQueryDto.getImage());
         movies.setCalification(moviesQueryDto.getCalification());
         movies.setTitle(moviesQueryDto.getTitle());
         movies.setCreateAt(moviesQueryDto.getCreateAt());
         return movies;
+    }
+
+    public MovieResponseDto toMovieResponseDto(Movies movies){
+        MovieResponseDto movieResponseDto = new MovieResponseDto();
+        movieResponseDto.setTitle(movies.getTitle());
+        movieResponseDto.setCalification(movies.getCalification());
+        movieResponseDto.setImage(movies.getImage());
+        movieResponseDto.setCreateAt(movies.getCreateAt());
+        return movieResponseDto;
     }
 
 }

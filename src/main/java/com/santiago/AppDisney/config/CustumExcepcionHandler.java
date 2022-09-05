@@ -1,5 +1,7 @@
 package com.santiago.AppDisney.config;
 
+
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,15 +44,20 @@ public class CustumExcepcionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<Object>(error, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(RuntimeException.class)
+   @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<Object> headleRunTimeExcepcion(RuntimeException ex,
                                                          WebRequest request
 
                                                          ){
+
         ErrorEx errorEx = new ErrorEx();
         errorEx.setStatus(HttpStatus.BAD_REQUEST);
         errorEx.setMessage(ex.getMessage());
 
         return new  ResponseEntity<Object>(errorEx,HttpStatus.BAD_REQUEST) ;
     };
+
+
+
+
 }

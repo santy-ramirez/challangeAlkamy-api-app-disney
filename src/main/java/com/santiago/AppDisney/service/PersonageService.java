@@ -53,7 +53,7 @@ public class PersonageService {
 
     //update characters
     public CustumerPage getAllPersonages(int page, String name,Integer age){
-        Pageable pageable = PageRequest.of(page,3) ;
+        Pageable pageable = PageRequest.of(page-1,3) ;
         BuildPage buildPage = new BuildPage();
         Boolean notIsNull = notIqualNull(age,name);
         if(notIsNull){

@@ -45,9 +45,9 @@ public class PersonageController {
 
 
     @GetMapping
-    public ResponseEntity<CustumerPage> getAll(@RequestParam(required = false,defaultValue = "0") @Valid @Positive int page,
+    public ResponseEntity<CustumerPage> getAll(@RequestParam(required = false,defaultValue = "1") @Valid @Positive int page,
                                                @RequestParam(required = false) @Valid @Size(min = 3, max = 20) String name,
-                                               @RequestParam(required = false) Integer age
+                                               @RequestParam(required = false) @Valid @Positive Integer age
                                                   ){
       CustumerPage personages =  personageService.getAllPersonages(page,name,age);
         return new ResponseEntity<>(personages, HttpStatus.OK);

@@ -3,6 +3,7 @@ package com.santiago.AppDisney.service;
 import com.santiago.AppDisney.converter.MoviesConverter;
 import com.santiago.AppDisney.domain.Movies;
 import com.santiago.AppDisney.domain.Personage;
+import com.santiago.AppDisney.dto.movies.MovieResponseDto;
 import com.santiago.AppDisney.dto.movies.MoviesDto;
 import com.santiago.AppDisney.dto.movies.MoviesQueryDto;
 import com.santiago.AppDisney.repository.MoviesRepository;
@@ -34,20 +35,36 @@ public class MoviesService {
         this.personageRepository = personageRepository;
     }
 
-    public MoviesQueryDto createMovie(MoviesQueryDto movie){
+    public MovieResponseDto createMovie(MoviesQueryDto movie){
      Movies moviesEntity = moviesConverter.toMovieQueryEntity(movie);
-    Movies movieToSave = moviesRepository.save(moviesEntity);
-      return moviesConverter.toMoviesQueryDto(movieToSave);
+     Movies movieToSave = moviesRepository.save(moviesEntity);
+      return moviesConverter.toMovieResponseDto(movieToSave);
     }
 
-    public CustumerPage getAllMovie(String query){
-        Pageable pageable = PageRequest.of(0,3, Sort.by("title").descending());
+    public MovieResponseDto updateMovie(Long id,MoviesQueryDto movieQuery){
+        Movies moviesEntity = moviesRepository.findById(id).orElse(null);
+        moviesEntity.setId(id);
+        moviesEntity.setTitle(movieQuery.getTitle());
+        moviesEntity.setImage(movieQuery.getImage());
+        movieQuery.setCalification(movieQuery.getCalification());
+        moviesRepository.save(moviesEntity);
+        return moviesConverter.toMovieResponseDto(moviesEntity);
+
+    }
+
+    public String deleteMovie(Long id){
+        moviesRepository.deleteById(id);
+        return "delete movie with number id: " + id;
+    }
+
+    public CustumerPage getAllMovie(String query,int page){
+        Pageable pageable = PageRequest.of(page-1,3);
         BuildPage buildPage = new BuildPage();
         if (query != null){
             Page<Movies> moviesFilter = moviesRepository.findByName(query,pageable);
             buildPage.paginate(moviesFilter).
                     content( moviesFilter.getContent().
-                            stream().map(movies2 -> moviesConverter.toMovieBaseDto(movies2)).
+                            stream().map(movie -> moviesConverter.toMovieBaseDto(movie)).
                             collect(Collectors.toList()));
         }else{
             Page<Movies> movies = moviesRepository.findAll(pageable);
@@ -58,12 +75,12 @@ public class MoviesService {
         return buildPage.build();
     }
 
-    public MoviesDto getList(Long idMovie, Long idPersonage) throws  RuntimeException{
+    public MoviesDto addPersonage(Long idMovie, Long idPersonage) throws  RuntimeException{
        Movies movies= moviesRepository.findById(idMovie).orElseThrow(
-               ()->new RuntimeException("Not Found movies with number:" + idMovie)
+               ()->new RuntimeException("Not Found movies with number: " + idMovie)
        );
        Personage personage = personageRepository.findById(idPersonage).orElseThrow(
-               ()-> new RuntimeException("Not Found personage with number id" + idPersonage)
+               ()-> new RuntimeException("Not Found personage with number id " + idPersonage)
        );
        movies.addPersonage(personage);
        moviesRepository.save(movies);

@@ -1,8 +1,7 @@
 package com.santiago.AppDisney.controller;
 
 
-import com.santiago.AppDisney.domain.Movies;
-import com.santiago.AppDisney.dto.movies.MoviesBaseDto;
+import com.santiago.AppDisney.dto.movies.MovieResponseDto;
 import com.santiago.AppDisney.dto.movies.MoviesDto;
 import com.santiago.AppDisney.dto.movies.MoviesQueryDto;
 import com.santiago.AppDisney.service.MoviesService;
@@ -28,7 +27,7 @@ public class MoviesController {
     }
 
     @PostMapping
-    public ResponseEntity<MoviesQueryDto> createMovies(@RequestBody @Valid  MoviesQueryDto movies){
+    public ResponseEntity<MovieResponseDto> createMovies(@RequestBody @Valid  MoviesQueryDto movies){
         return new ResponseEntity<>(moviesService.createMovie(movies), HttpStatus.CREATED);
 
     }
@@ -37,7 +36,18 @@ public class MoviesController {
     public ResponseEntity<MoviesDto> addPersonage(
             @PathVariable @Valid @Positive Long idMovie,
             @PathVariable @Valid @Positive Long idPersonage) {
-        return new ResponseEntity<>(moviesService.getList(idMovie,idPersonage),HttpStatus.CREATED);
+        return new ResponseEntity<>(moviesService.addPersonage(idMovie,idPersonage),HttpStatus.CREATED);
+
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<MovieResponseDto> deleteMovie(@PathVariable Long id,@RequestBody MoviesQueryDto moviesQueryDto){
+        return new ResponseEntity<>(moviesService.updateMovie(id,moviesQueryDto),HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteMovie(@PathVariable Long id){
+        return new ResponseEntity<>(moviesService.deleteMovie(id),HttpStatus.OK);
 
     }
 
@@ -48,7 +58,9 @@ public class MoviesController {
         return new ResponseEntity<>(moviesService.deletePersonage(idMovie,idPersonage),HttpStatus.OK);
     }
     @GetMapping
-    public ResponseEntity getAllMovies(@RequestParam(required = false) @Valid @Size(max = 20, min = 3) String name){
-        return new ResponseEntity<>(moviesService.getAllMovie(name),HttpStatus.OK) ;
+    public ResponseEntity getAllMovies(@RequestParam(required = false) @Valid @Size(max = 20, min = 3) String name,
+                                       @RequestParam(required = false, defaultValue = "1") @Valid @Positive int page
+                                        ){
+        return new ResponseEntity<>(moviesService.getAllMovie(name,page),HttpStatus.OK) ;
     }
 }
