@@ -1,5 +1,6 @@
 package com.santiago.AppDisney.security.controller;
 
+import com.santiago.AppDisney.email.ConfigEmail;
 import com.santiago.AppDisney.security.domain.Usuario;
 import com.santiago.AppDisney.security.jwt.jwtUtil;
 import com.santiago.AppDisney.security.repository.UsuarioRepository;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/auth")
@@ -30,6 +32,8 @@ public class AuthController {
     private AuthenticationManager authenticationManager;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private ConfigEmail configEmail;
 
     @PostMapping("/authenticate")
     public ResponseJwt authenticate(@RequestBody Usuario jwtRequest) throws Exception {
@@ -49,11 +53,12 @@ public class AuthController {
         return new ResponseJwt(token);
     }
     @PostMapping("/register")
-    public Usuario registerUser(@RequestBody @Valid Usuario usuario){
+    public Usuario registerUser(@RequestBody @Valid Usuario usuario) throws IOException {
         Usuario usuarioentity = usuario;
         usuarioentity.setPassword(passwordEncoder.encode(usuario.getPassword()));
 
         Usuario usuarioSaved = usuarioRepository.save(usuarioentity);
+        configEmail.sendEmail(usuario.getEmail());
         return  usuarioSaved;
     }
 }
