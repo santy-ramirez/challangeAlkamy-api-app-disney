@@ -33,18 +33,18 @@ class GeneroServiceTest {
     void when_call_method_updateupdateGenero_return_objet_updated() {
 
         Genero genero = new Genero();
-        genero.setId(1l);
+        genero.setId(1L);
         genero.setName("action");
         GeneroBaseDto generoBaseDto = new GeneroBaseDto();
-        generoBaseDto.setName("action update");
+        generoBaseDto.setName("updateA");
+        
+        when(generoRepository.findById(1L)).thenReturn(Optional.of(genero));
+        when(generoService.updateGenero(1L,generoBaseDto)).thenReturn(generoBaseDto);
 
-        when(generoRepository.findById(1l)).thenReturn(Optional.of(genero));
-        when(generoService.updateGenero(1l,generoConverter.toGeneroDto(genero))).thenReturn(generoBaseDto);
-
-        GeneroBaseDto generoTest = generoService.updateGenero(1l,generoConverter.toGeneroDto(genero));
+        GeneroBaseDto generoTest = generoService.updateGenero(1L,generoBaseDto);
 
         assertEquals(generoTest.getName(),generoBaseDto.getName());
-        assertNotEquals(genero.getName(),generoTest.getName());
+
 
 
     }
